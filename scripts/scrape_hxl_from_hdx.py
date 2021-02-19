@@ -17,9 +17,10 @@ result_total_count = result["count"]
 numOfFiles =  result["count"]
 #loops = int(math.ceil(numOfFiles/1000))
 output = []
-loops = 7
+loops = 20
 j=0
 for i in range(0, loops):
+    print i
     result = find_datasets(1000*i, 1000)
     packages = result["results"]
     for package in packages:
@@ -27,22 +28,22 @@ for i in range(0, loops):
             print(package)
             j=j+1
         item = {}
-        item['i'] = package['id']
-        item['n'] = package['title']
-        item['d'] = package['total_res_downloads']
-        item['r'] = []
-        item['t'] = []
-        item['h'] = 0
+        item['id'] = package['id']
+        item['title'] = package['title']
+        item['downloads'] = package['total_res_downloads']
+        item['resources'] = []
+        item['tags'] = []
+        item['hxl'] = 0
         for tag in package['tags']:
-            item['t'].append(tag['name'].lower())
+            item['tags'].append(tag['name'].lower())
             if tag['name'].lower() == 'hxl':
-                item['h'] = 1
+                item['hxl'] = 1
         countries =  json.loads(package['solr_additions'])
         for tag in countries['countries']:
-            item['t'].append(tag)
+            item['tags'].append(tag)
         for resource in package['resources']:
-            item['r'].append(resource['download_url'])
-        item['o'] = package['organization']['title']
+            item['resources'].append({'link':resource['download_url'],'update_date':resource['revision_last_updated']})
+        item['org'] = package['organization']['title']
         output.append(item)
 
 with open('hdxDataScrape.json', 'w') as file:

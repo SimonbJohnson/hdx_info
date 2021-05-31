@@ -2,9 +2,11 @@
 ### create search index for browsing site
 #########################################
 
+# improvements to make
+# don't allow country tags to be secondary tag of another country
+
 import json
 import os
-
 
 packageFile = 'hdxDataScrape.json'
 
@@ -27,7 +29,8 @@ def indexPackage(packageID,filePath,index):
 	return index
 
 def checkPackage(package,index):
-	if package['hxl']==1:
+	exclusionList = ['WFP - World Food Programme','World Bank Group','Food and Agriculture Organization (FAO)']
+	if package['hxl']==1 and package['org'] not in exclusionList:
 		packageID = package['id']
 		filePath = '../data/packages/'+packageID+'.json' 
 		index = indexPackage(packageID,filePath,index)
@@ -49,15 +52,33 @@ def saveSubIndex(primaryTag,secondaryTag,subIndex):
 	with open(directory+'/'+secondaryTag+'.json', 'w') as file:
 		json.dump(subIndex, file)
 
+def saveSubTopIndex(primaryTag,subIndex):
+	directory = '../indexes/'+primaryTag
+	if not os.path.exists(directory):
+		os.makedirs(directory)
+	with open(directory+'/index.json', 'w') as file:
+		json.dump(subIndex, file)
+
 def splitIndex(index):
 	mainIndex = {}
+	mainIndexDict = {}
 	for primaryTag in index:
-		for secondaryTag in index[primaryTag]:
-			if primaryTag not in mainIndex and primaryTag!='HXL':
-					mainIndex[primaryTag] = {}
-			if secondaryTag not in mainIndex[primaryTag] and secondaryTag!='HXL':
-				mainIndex[primaryTag][secondaryTag] = len(index[primaryTag][secondaryTag])
-			saveSubIndex(primaryTag,secondaryTag,index[primaryTag][secondaryTag]);
+		count = 0
+		if primaryTag!='hxl':
+			for secondaryTag in index[primaryTag]:
+				if primaryTag not in mainIndex:
+						mainIndex[primaryTag] = {'tags':[],'count':0,'files':[]};
+						mainIndexDict[primaryTag] = []
+				if secondaryTag not in mainIndex[primaryTag]['tags'] and secondaryTag!='hxl':
+					mainIndex[primaryTag]['tags'].append({'tag':secondaryTag,'count':len(index[primaryTag][secondaryTag])})
+					for file in index[primaryTag][secondaryTag]:
+						if file['p'] not in mainIndexDict[primaryTag]:
+							mainIndex[primaryTag]['count'] = mainIndex[primaryTag]['count'] + 1
+							mainIndex[primaryTag]['files'].append(file)
+							mainIndexDict[primaryTag].append(file['p'])
+				saveSubIndex(primaryTag,secondaryTag,index[primaryTag][secondaryTag]);
+				saveSubTopIndex(primaryTag,mainIndex[primaryTag]);
+			del mainIndex[primaryTag]['files']
 	with open('../index.json', 'w') as file:
 		json.dump(mainIndex, file)
 

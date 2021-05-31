@@ -1,0 +1,96 @@
+.tag {
+	padding:5px;
+	margin:5px;
+	display: inline-block;
+	cursor:pointer;
+	color:#FFF;
+}
+
+.primary {
+	background-color:#D50000;
+}
+
+.secondary {
+	background-color:#0D47A1;
+}
+
+#suggestedterms {
+	margin-top:15px;
+}
+
+#primaryterm {
+	display:inline-block;
+}
+
+#secondaryterm {
+	display:inline-block;
+}
+
+#search2 {
+	display:none;
+}
+
+.packagetitle {
+	font-size:1.4em;
+}
+
+.map {
+	width:100%;
+	height:400px;
+}
+
+#headline {
+	margin-bottom:20px;
+	border:1px #ccc solid;
+}
+
+.headlinetext {
+	font-size:20px;
+	text-align:center;
+}
+
+.headlinenumber {
+	font-size:36px;
+	text-align:center;
+	line-height:1.485;
+	margin-left:0px;
+	margin-right:0px;
+	margin-bottom:10px;
+}
+
+.package {
+	margin-bottom:30px;
+	border-bottom:1px #ccc solid;
+}
+
+.chartelement {
+	height:400px;
+}
+
+.biteinfo {
+	font-size:8px;
+}
+
+.bitefile {
+	font-size:1em;
+}
+
+#dashview {
+	position: fixed;
+    top: 0;
+    background-color:white;
+    z-index:999;
+    font-size:0.75em;
+}
+
+.chartcontainer {
+	padding-bottom:15px;
+}
+
+.map {
+	z-index:5;
+}
+
+.smallbtn {
+	font-size:0.75em;
+}

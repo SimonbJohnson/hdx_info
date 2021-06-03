@@ -203,7 +203,7 @@ function addToDash(biteDetails){
 		titles += dash.title+', ';
 	});
 	$('#dashview1').append('<p>Charts and Maps: '+titles+'</p>');
-	$('#dashview1').append('<p><button id="opendash" class="btn smallbtn" href="">Open</button></p>');
+	$('#dashview1').append('<p><button id="opendash1" class="btn smallbtn" href="">Open</button></p>');
 	$('#opendash1').on('click',function(){
 		opendash(dashview);
 	})	

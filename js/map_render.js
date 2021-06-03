@@ -361,7 +361,7 @@ function addMapLayer(map,bite,data,mapOptions,title){
                             style: styleClosure(geom_attributes[0]),
                             onEachFeature: onEachFeatureClosure(geom_attributes[0],name_attributes[0])
                         }
-                    ).addTo(map);
+                    ).addTo(map).bringToBack();
                     if(urls.length>1){
                         loadGeoms(urls.slice(1),geom_attributes.slice(1),name_attributes.slice(1));
                     } else {
